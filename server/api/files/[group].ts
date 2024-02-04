@@ -1,7 +1,14 @@
+import {readdir} from "node:fs/promises";
 import {FileData} from "~/types/files";
 
-export default defineEventHandler<FileData[]>(event => {
+export default defineEventHandler(async event => {
     const group = getRouterParam(event, "group")!;
 
-    return [{name: "test"}, {name: "test2"}]
+    let filesNames = await readdir("data/" + group);
+
+    return filesNames.map(value => {
+        return {
+            name: value
+        } as FileData
+    })
 })

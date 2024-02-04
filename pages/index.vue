@@ -1,8 +1,10 @@
 <script setup lang="ts">
 
 import type {FileData} from "~/types/files";
+import type {AsyncData} from "#app";
+import {FetchError} from "ofetch";
 
-let {data, pending, error, refresh} = useFetch<FileData[]>("/api/files/public");
+let {data, pending, error, refresh} = useFetch<FileData[]>("/api/files/public") as AsyncData<FileData[], FetchError>;
 </script>
 
 <template>
@@ -10,7 +12,10 @@ let {data, pending, error, refresh} = useFetch<FileData[]>("/api/files/public");
 
   <div>
     <div v-for="file in data">
-      {{ file.name }}
+      <a
+          :href="`api/files/public/${file.name}`">
+        {{ file.name }}
+      </a>
     </div>
   </div>
 </template>
