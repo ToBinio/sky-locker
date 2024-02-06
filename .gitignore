@@ -25,3 +25,5 @@ logs
 
 bun.lockb
 pnpm-lock.yaml
+
+data

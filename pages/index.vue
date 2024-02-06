@@ -2,60 +2,50 @@
 
 import type {FileData} from "~/types/files";
 
+type uploadingFile = FileData & { loading: boolean }
+
 let {data, refresh} = useFetch<{ files: FileData[] }>("/api/files/public");
 const files = computed(() => data.value?.files);
+const uploadingFiles = reactive<uploadingFile[]>([]);
 
-async function onUploadFile(event: { target: HTMLInputElement }) {
-
-  if (!event.target.files) {
-    return
-  }
-
-  for (let file of event.target.files) {
+async function onUploadFile(files: FileList) {
+  for (let file of files) {
     let formData = new FormData();
 
     formData.append("file", file);
 
-    await $fetch(`/api/files/public/upload`, {
+    uploadingFiles.push({name: file.name, loading: true})
+
+    $fetch(`/api/files/public/upload`, {
       method: "POST",
       body: formData,
-    })
+    }).then(async () => {
+      await refresh()
 
-    await refresh()
+      uploadingFiles.splice(uploadingFiles.findIndex(value => value.name == file.name), 1)
+    })
   }
+
 }
 
-async function onDrop(event: { dataTransfer: HTMLInputElement }) {
+async function onRemove(file: FileData) {
 
-  if (!event.dataTransfer.files) {
-    return
-  }
+  await $fetch(`/api/files/public/${file.name}`, {
+    method: "DELETE",
+  })
 
-  for (let file of event.dataTransfer.files) {
-    let formData = new FormData();
-
-    formData.append("file", file);
-
-    await $fetch(`/api/files/public/upload`, {
-      method: "POST",
-      body: formData,
-    })
-
-    await refresh()
-  }
+  await refresh()
 }
-
 </script>
 
 <template>
   <h1>SkyLocker</h1>
 
   <div>
-    <div id="dropzone" @drop.prevent="onDrop" @dragover.prevent>
-      upload
-    </div>
-    <input type="file" @input="onUploadFile" multiple/>
-    <div v-for="file in files">
+    <fileInput @upload="onUploadFile"/>
+    <file v-for="file in files" :key="file.name" :file="file" @remove="() => onRemove(file)"/>
+    <div v-for="file in uploadingFiles" :key="file.name">
+      uploading...
       <a
           :href="`api/files/public/${file.name}`">
         {{ file.name }}
@@ -66,8 +56,4 @@ async function onDrop(event: { dataTransfer: HTMLInputElement }) {
 
 <style scoped>
 
-#dropzone {
-  background-color: gray;
-  height: 100px;
-}
 </style>
