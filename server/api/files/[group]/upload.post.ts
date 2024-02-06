@@ -1,5 +1,5 @@
 import {FileData} from "~/types/files";
-import {readFile, writeFile} from "node:fs/promises";
+import {mkdir, readFile, writeFile} from "node:fs/promises";
 
 export default defineEventHandler(async event => {
 
@@ -14,6 +14,7 @@ export default defineEventHandler(async event => {
         console.log(file);
 
         console.log(file.filename);
+        await mkdir("data/public/", {recursive: true})
         await writeFile(`data/public/${file.filename}`, file.data)
     }
 })
