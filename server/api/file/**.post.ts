@@ -1,8 +1,9 @@
 import {FileData} from "~/types/files";
 import {mkdir, readFile, writeFile} from "node:fs/promises";
+import {getPathFromGroup} from "~/server/utils/path";
 
 export default defineEventHandler(async event => {
-    const group = getRouterParam(event, "group")!;
+    let path = getPathFromGroup(event);
 
     let data = await readMultipartFormData(event);
 
@@ -10,9 +11,9 @@ export default defineEventHandler(async event => {
         return
     }
 
-    await mkdir(`data/${group}/`, {recursive: true})
+    await mkdir(`${path}/`, {recursive: true})
 
     for (let file of data) {
-        await writeFile(`data/public/${file.filename}`, file.data)
+        await writeFile(`${path}/${file.filename}`, file.data)
     }
 })

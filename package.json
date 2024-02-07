@@ -17,6 +17,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "formidable": "^3.5.1"
+    "formidable": "^3.5.1",
+    "h3": "^1.10.1"
   }
 }
