@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {FileData} from "~/types/files";
 
-defineProps<{ file: FileData }>();
+defineProps<{ file: FileData & { loading: boolean } }>();
 
 const emits = defineEmits<{ remove: [] }>()
 
@@ -13,9 +13,12 @@ function onRemove() {
 
 <template>
   <div>
-    <button @click="onRemove">
+    <button @click="onRemove" v-if="!file.loading">
       delete
     </button>
+    <div v-if="file.loading">
+      loading...
+    </div>
     <a
         :href="`api/files/public/${file.name}`">
       {{ file.name }}

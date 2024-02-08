@@ -8,9 +8,15 @@ const props = defineProps<{ basePath: string }>()
 let {data, refresh} = useFetch<{ files: FileData[], dirs: DirData[] }>(`/api/files/${props.basePath}`);
 
 const files = computed(() => data.value?.files);
-const dirs = computed(() => data.value?.dirs);
-
 const uploadingFiles = reactive<uploadingFile[]>([]);
+
+const allFiles = computed(() => {
+  let all = files.value!.concat(uploadingFiles);
+  all?.sort((a, b) => a.name.localeCompare(b.name))
+  return all
+})
+
+const dirs = computed(() => data.value?.dirs);
 
 async function onUploadFile(files: FileList) {
   for (let file of files) {
@@ -62,7 +68,6 @@ async function onRemoveDir(dir: DirData) {
 
 <template>
   <div>
-    <fileInput @upload="onUploadFile"/>
     <div>
       <h2>Dirs</h2>
 
@@ -73,33 +78,23 @@ async function onRemoveDir(dir: DirData) {
         </form>
       </div>
 
-      <div v-for="dir in dirs">
-        <div id="test">
-          <button @click="() => onRemoveDir(dir)">
-            delete
-          </button>
-          {{ dir.name }}
-          <DirectoryDisplay :base-path="`${props.basePath}/${dir.name}`"/>
-        </div>
+      <div id="dirs">
+        <ClosableDirectory v-for="dir in dirs" :dir="dir" :base-path="basePath" @remove="() => onRemoveDir(dir)"/>
       </div>
     </div>
     <div>
       <h2>Files</h2>
 
-      <file v-for="file in files" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"/>
-      <div v-for="file in uploadingFiles" :key="file.name">
-        uploading...
-        <a
-            :href="`api/file/public/${file.name}`">
-          {{ file.name }}
-        </a>
-      </div>
+      <file v-for="file in allFiles" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"/>
+
+      <fileInput @upload="onUploadFile"/>
     </div>
   </div>
 </template>
 
 <style scoped>
-#test {
-  border: red 1px solid;
+#dirs {
+  position: relative;
+  left: 50px;
 }
 </style>
