@@ -20,8 +20,6 @@ async function onUploadFile(files: FileList) {
 
     uploadingFiles.push({name: file.name, loading: true});
 
-    console.log(`/api/file/${props.basePath}`);
-
     $fetch(`/api/file/${props.basePath}`, {
       method: "POST",
       body: formData,
@@ -33,8 +31,28 @@ async function onUploadFile(files: FileList) {
   }
 }
 
-async function onRemove(file: FileData) {
+async function onRemoveFile(file: FileData) {
   await $fetch(`/api/files/${props.basePath}/${file.name}`, {
+    method: "DELETE",
+  })
+
+  await refresh()
+}
+
+let dirName = ref("");
+
+async function onCreateNewDir() {
+  await $fetch(`/api/dir/${props.basePath}/${dirName.value}`, {
+    method: "POST",
+  })
+
+  dirName.value = ""
+
+  await refresh()
+}
+
+async function onRemoveDir(dir: DirData) {
+  await $fetch(`/api/dir/${props.basePath}/${dir.name}`, {
     method: "DELETE",
   })
 
@@ -44,13 +62,22 @@ async function onRemove(file: FileData) {
 
 <template>
   <div>
-    {{ basePath }}
     <fileInput @upload="onUploadFile"/>
     <div>
       <h2>Dirs</h2>
 
+      <div>
+        <form @submit.prevent="onCreateNewDir">
+          <input v-model="dirName" type="text" name="dirName">
+          <button type="submit">new</button>
+        </form>
+      </div>
+
       <div v-for="dir in dirs">
         <div id="test">
+          <button @click="() => onRemoveDir(dir)">
+            delete
+          </button>
           {{ dir.name }}
           <DirectoryDisplay :base-path="`${props.basePath}/${dir.name}`"/>
         </div>
@@ -59,7 +86,7 @@ async function onRemove(file: FileData) {
     <div>
       <h2>Files</h2>
 
-      <file v-for="file in files" :key="file.name" :file="file" @remove="() => onRemove(file)"/>
+      <file v-for="file in files" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"/>
       <div v-for="file in uploadingFiles" :key="file.name">
         uploading...
         <a

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const emits = defineEmits<{ upload: [files: FileList] }>();
 
+let id = useId();
 
 function onDrop(e: DragEvent) {
 
@@ -23,14 +24,15 @@ function onFileInput(e: { target: HTMLInputElement }) {
 </script>
 
 <template>
-  <input id="fileInput" type="file" @input="onFileInput" multiple/>
-  <label for="fileInput" id="dropzone" @drop.prevent="onDrop" @dragover.prevent>upload File</label>
+  <input :id="`fileInput-${id}`" type="file" @input="onFileInput" multiple/>
+  <label :for="`fileInput-${id}`" id="dropzone" @drop.prevent="onDrop" @dragover.prevent>upload File</label>
 </template>
 
 <style scoped>
 input {
   display: none;
 }
+
 #dropzone {
   height: 80px;
   aspect-ratio: 3/1;
