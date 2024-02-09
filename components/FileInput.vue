@@ -12,20 +12,27 @@ function onDrop(e: DragEvent) {
   emits("upload", e.dataTransfer.files);
 }
 
-function onFileInput(e: { target: HTMLInputElement }) {
+function onFileInput(e: Event) {
 
-  if (!e.target || !e.target.files) {
+  let target = e.target as HTMLInputElement;
+
+  if (!target || !target.files) {
     return
   }
 
-  emits("upload", e.target.files);
+  emits("upload", target.files);
 }
 
 </script>
 
 <template>
   <input :id="`fileInput-${id}`" type="file" @input="onFileInput" multiple/>
-  <label :for="`fileInput-${id}`" id="dropzone" @drop.prevent="onDrop" @dragover.prevent>upload File</label>
+  <label :for="`fileInput-${id}`" id="dropzone" @drop.prevent="onDrop" @dragover.prevent>
+    <div class="myIcon" id="icon">
+      <icon name="basil:upload-outline" size="24" color="var(--white)"/>
+    </div>
+    Upload File
+  </label>
 </template>
 
 <style scoped>
@@ -34,14 +41,26 @@ input {
 }
 
 #dropzone {
-  height: 80px;
-  aspect-ratio: 3/1;
+  cursor: pointer;
 
-  border: 1px solid gray;
+  height: var(--element-height);
+  box-sizing: border-box;
+
+  padding:  calc(var(--gap) - 3px);
+
+  background-color: var(--mid-base);
+
+  border: 3px dotted var(--base);
+  border-radius: var(--element-radius);
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: var(--gap);
 
+  color: white;
+
+  #icon {
+    background-color: var(--base);
+  }
 }
 </style>
