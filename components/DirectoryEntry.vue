@@ -79,7 +79,7 @@ const folderIcon = computed(() => {
     border-bottom-left-radius: calc(var(--element-radius) + var(--gap));
     border-bottom-right-radius: calc(var(--element-radius) + var(--gap));
 
-    #innerContent{
+    #innerContent {
       background: var(--light-base);
       padding: var(--gap);
 

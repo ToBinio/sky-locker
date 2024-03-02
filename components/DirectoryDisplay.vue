@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {$fetch} from "ofetch";
 import type {DirData, FileData} from "~/utils/files";
+import FileInput from "~/components/input/FileInput.vue";
+import DirectoryInput from "~/components/input/DirectoryInput.vue";
 
 const props = defineProps<{ basePath: string }>()
 
@@ -47,14 +49,10 @@ async function onRemoveFile(file: FileData) {
   await refresh()
 }
 
-let dirName = ref("");
-
-async function onCreateNewDir() {
-  await $fetch(`/api/dir/${props.basePath}/${dirName.value}`, {
+async function onCreateNewDir(name: string) {
+  await $fetch(`/api/dir/${props.basePath}/${name}`, {
     method: "POST",
   })
-
-  dirName.value = ""
 
   await refresh()
 }
@@ -70,15 +68,10 @@ async function onRemoveDir(dir: DirData) {
 
 <template>
   <div id="main">
-    <Directory v-for="dir in dirs" :dir="dir" :base-path="basePath" @remove="() => onRemoveDir(dir)"/>
-    <form id="folderInput" @submit.prevent="onCreateNewDir">
-      <button class="myIcon" id="icon" type="submit">
-        <icon name="basil:folder-plus-outline" size="24" color="var(--white)"/>
-      </button>
-      <input v-model="dirName" type="text" name="dirName" placeholder="Folder Name">
-    </form>
-    <File v-for="file in allFiles" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"
-          :base-path="basePath"/>
+    <DirectoryEntry v-for="dir in dirs" :dir="dir" :base-path="basePath" @remove="() => onRemoveDir(dir)"/>
+    <DirectoryInput @new="onCreateNewDir"/>
+    <FileEntry v-for="file in allFiles" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"
+               :base-path="basePath"/>
     <FileInput @upload="onUploadFile"/>
   </div>
 </template>
@@ -88,36 +81,5 @@ async function onRemoveDir(dir: DirData) {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-
-  #folderInput {
-    cursor: pointer;
-
-    height: var(--element-height);
-    box-sizing: border-box;
-
-    padding: calc(var(--gap) - 3px);
-
-    background-color: var(--mid-base);
-
-    border: 3px dotted var(--base);
-    border-radius: var(--element-radius);
-
-    display: flex;
-    align-items: center;
-    gap: var(--gap);
-
-    input {
-      background: none;
-      border: none;
-      border-bottom: 2px solid var(--base);
-
-      color: white;
-      font-size: 17px;
-    }
-
-    #icon {
-      background-color: var(--base);
-    }
-  }
 }
 </style>
