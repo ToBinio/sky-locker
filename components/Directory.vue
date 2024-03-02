@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {DirData} from "~/types/files";
+import type {DirData} from "~/utils/files";
 
 defineProps<{ dir: DirData, basePath: String }>();
 

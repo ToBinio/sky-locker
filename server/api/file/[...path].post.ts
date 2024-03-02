@@ -1,4 +1,4 @@
-import {FileData} from "~/types/files";
+import {FileData} from "~/utils/files";
 import {mkdir, readFile, writeFile} from "node:fs/promises";
 import {getPathFromGroup} from "~/server/utils/path";
 

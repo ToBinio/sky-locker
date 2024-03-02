@@ -28,9 +28,9 @@ function onFileInput(e: Event) {
 <template>
   <input :id="`fileInput-${id}`" type="file" @input="onFileInput" multiple/>
   <label :for="`fileInput-${id}`" id="dropzone" @drop.prevent="onDrop" @dragover.prevent>
-    <div class="myIcon" id="icon">
+    <span class="myIcon" id="icon">
       <icon name="basil:upload-outline" size="24" color="var(--white)"/>
-    </div>
+    </span>
     Upload File
   </label>
 </template>

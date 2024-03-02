@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type {FileData} from "~/types/files";
+import type {FileData} from "~/utils/files";
 
-defineProps<{ file: FileData & { loading: boolean }, basePath: string }>();
+defineProps<{ file: FileData, basePath: string }>();
 
 const emits = defineEmits<{ remove: [] }>()
 

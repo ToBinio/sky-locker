@@ -1,5 +1,5 @@
 import {access, mkdir, readdir, stat} from "node:fs/promises";
-import {FileData, DirData} from "~/types/files";
+import {FileData, DirData} from "~/utils/files";
 import {getPathFromGroup} from "~/server/utils/path";
 
 export default defineEventHandler(async event => {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type {DirData, FileData} from "~/types/files";
-
-type uploadingFile = FileData & { loading: boolean }
+import {$fetch} from "ofetch";
+import type {DirData, FileData} from "~/utils/files";
 
 const props = defineProps<{ basePath: string }>()
 
@@ -10,7 +9,7 @@ let {data, refresh} = useFetch<{ files: FileData[], dirs: DirData[] }>(`/api/fil
 const files = computed(() => {
   return data.value ? data.value.files : [];
 });
-const uploadingFiles = reactive<uploadingFile[]>([]);
+const uploadingFiles = reactive<FileData[]>([]);
 
 const allFiles = computed(() => {
   let all = files.value!.concat(uploadingFiles);
@@ -41,7 +40,7 @@ async function onUploadFile(files: FileList) {
 }
 
 async function onRemoveFile(file: FileData) {
-  await $fetch(`/api/files/${props.basePath}/${file.name}`, {
+  await $fetch(`/api/file/${props.basePath}/${file.name}`, {
     method: "DELETE",
   })
 
