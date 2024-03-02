@@ -77,9 +77,9 @@ async function onRemoveDir(dir: DirData) {
       </button>
       <input v-model="dirName" type="text" name="dirName" placeholder="Folder Name">
     </form>
-    <file v-for="file in allFiles" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"
+    <File v-for="file in allFiles" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"
           :base-path="basePath"/>
-    <fileInput @upload="onUploadFile"/>
+    <FileInput @upload="onUploadFile"/>
   </div>
 </template>
 

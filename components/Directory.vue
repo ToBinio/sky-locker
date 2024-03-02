@@ -36,7 +36,9 @@ const folderIcon = computed(() => {
     </div>
 
     <div v-if="open" id="content">
-      <DirectoryDisplay :base-path="`${basePath}/${dir.name}`"/>
+      <div id="innerContent">
+        <DirectoryDisplay :base-path="`${basePath}/${dir.name}`"/>
+      </div>
     </div>
   </div>
 </template>
@@ -60,16 +62,29 @@ const folderIcon = computed(() => {
 
     color: var(--white);
 
+    &:has(+ #content) {
+      border-bottom-right-radius: 0;
+    }
   }
 
   #content {
-    margin-left: 25px;
-    margin-top: var(--gap);
+    margin-left: calc(var(--element-height) - var(--gap));
 
-    padding: var(--gap);
+    background: var(--base);
 
-    border: 3px solid var(--base);
-    border-radius: calc(var(--element-radius) + var(--gap));
+
+    border: var(--gap) solid var(--base);
+    border-top: none;
+
+    border-bottom-left-radius: calc(var(--element-radius) + var(--gap));
+    border-bottom-right-radius: calc(var(--element-radius) + var(--gap));
+
+    #innerContent{
+      background: var(--light-base);
+      padding: var(--gap);
+
+      border-radius: var(--element-radius);
+    }
   }
 }
 
