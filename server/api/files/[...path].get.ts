@@ -3,7 +3,7 @@ import {FileData, DirData} from "~/utils/files";
 import {getPathFromGroup} from "~/server/utils/path";
 
 export default defineEventHandler(async event => {
-    let path = getPathFromGroup(event);
+    let path = `data/${decodeURI(getRouterParam(event, "path")!)}`;
 
     try {
         await access(path)
