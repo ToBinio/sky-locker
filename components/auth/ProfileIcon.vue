@@ -2,43 +2,46 @@
 import consola from "consola";
 
 function onLogin() {
-  let config = useRuntimeConfig();
-  let clientId = config.public.githubAppClientId;
+	const config = useRuntimeConfig();
+	const clientId = config.public.githubAppClientId;
 
-  const popup = window.open(`https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${window.location.origin}/redirectAuth`, "popup", "popup,width=1280,height=720")
+	const popup = window.open(
+		`https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${window.location.origin}/redirectAuth`,
+		"popup",
+		"popup,width=1280,height=720",
+	);
 
-  if (popup == null) {
-    consola.error("could not open LogIn popup")
-    return
-  }
+	if (popup == null) {
+		consola.error("could not open LogIn popup");
+		return;
+	}
 
-  const checkPopup = setInterval(() => {
-    try {
-      if (popup.window.location.host == location.host) {
-        setCode(popup.window.location);
+	const checkPopup = setInterval(() => {
+		try {
+			if (popup.window.location.host === location.host) {
+				setCode(popup.window.location);
 
-        popup.close()
-      }
-    } catch (e) {
-    }
+				popup.close();
+			}
+		} catch (e) {}
 
-    if (!popup || !popup.closed) return;
+		if (!popup || !popup.closed) return;
 
-    clearInterval(checkPopup);
-  }, 1000);
+		clearInterval(checkPopup);
+	}, 1000);
 }
 
 async function setCode(pageLocation: Location) {
-  if (!pageLocation.search.startsWith("?code=")) {
-    consola.error("no code was Provided from redirect", pageLocation);
-    return
-  }
+	if (!pageLocation.search.startsWith("?code=")) {
+		consola.error("no code was Provided from redirect", pageLocation);
+		return;
+	}
 
-  let code = pageLocation.search.split("?code=")[1];
+	const code = pageLocation.search.split("?code=")[1];
 
-  let data = await $fetch("/api/auth", {query: {code: code}})
+	const data = await $fetch("/api/auth", { query: { code: code } });
 
-  consola.debug(data);
+	consola.debug(data);
 }
 </script>
 

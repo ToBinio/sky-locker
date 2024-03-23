@@ -1,8 +1,8 @@
 export interface FileData {
-    name: string
-    loading: boolean | undefined
+	name: string;
+	loading: boolean | undefined;
 }
 
 export interface DirData {
-    name: string
+	name: string;
 }

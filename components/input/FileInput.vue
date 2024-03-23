@@ -1,28 +1,25 @@
 <script setup lang="ts">
 const emits = defineEmits<{ upload: [files: FileList] }>();
 
-let id = useId();
+const id = useId();
 
 function onDrop(e: DragEvent) {
+	if (!e.dataTransfer) {
+		return;
+	}
 
-  if (!e.dataTransfer) {
-    return
-  }
-
-  emits("upload", e.dataTransfer.files);
+	emits("upload", e.dataTransfer.files);
 }
 
 function onFileInput(e: Event) {
+	const target = e.target as HTMLInputElement;
 
-  let target = e.target as HTMLInputElement;
+	if (!target || !target.files) {
+		return;
+	}
 
-  if (!target || !target.files) {
-    return
-  }
-
-  emits("upload", target.files);
+	emits("upload", target.files);
 }
-
 </script>
 
 <template>

@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import type {FileData} from "~/utils/files";
+import type { FileData } from "~/utils/files";
 
-defineProps<{ file: FileData, basePath: string }>();
+defineProps<{ file: FileData; basePath: string }>();
 
-const emits = defineEmits<{ remove: [] }>()
+const emits = defineEmits<{ remove: [] }>();
 
 function onRemove() {
-  emits("remove")
+	emits("remove");
 }
-
 </script>
 
 <template>

@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import type {DirData} from "~/utils/files";
+import type { DirData } from "~/utils/files";
 
-defineProps<{ dir: DirData, basePath: String }>();
+defineProps<{ dir: DirData; basePath: string }>();
 
-const emits = defineEmits<{ remove: [] }>()
+const emits = defineEmits<{ remove: [] }>();
 
-let open = ref(false);
+const open = ref(false);
 
 function onToggle() {
-  open.value = !open.value;
+	open.value = !open.value;
 }
 
 function onRemove() {
-  emits("remove");
+	emits("remove");
 }
 
 const folderIcon = computed(() => {
-  return open.value ? "basil:folder-open-outline" : "basil:folder-outline";
-})
-
+	return open.value ? "basil:folder-open-outline" : "basil:folder-outline";
+});
 </script>
 
 <template>

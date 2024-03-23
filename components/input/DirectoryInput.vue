@@ -1,14 +1,12 @@
 <script setup lang="ts">
-
 const emits = defineEmits<{ new: [name: string] }>();
 
-let dirName = ref("");
+const dirName = ref("");
 
 function onCreateNewDir() {
-  emits("new", dirName.value)
-  dirName.value = ""
+	emits("new", dirName.value);
+	dirName.value = "";
 }
-
 </script>
 <template>
   <form id="folderInput" @submit.prevent="onCreateNewDir">
