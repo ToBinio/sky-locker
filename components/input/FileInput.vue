@@ -26,13 +26,15 @@ function onFileInput(e: Event) {
 </script>
 
 <template>
-  <input :id="`fileInput-${id}`" type="file" @input="onFileInput" multiple/>
-  <label :for="`fileInput-${id}`" id="dropzone" @drop.prevent="onDrop" @dragover.prevent>
+  <div>
+    <input :id="`fileInput-${id}`" type="file" @input="onFileInput" multiple/>
+    <label :for="`fileInput-${id}`" id="dropzone" @drop.prevent="onDrop" @dragover.prevent>
     <span class="myIcon" id="icon">
       <icon name="basil:upload-outline" size="24" color="var(--white)"/>
     </span>
-    Upload File
-  </label>
+      Upload File
+    </label>
+  </div>
 </template>
 
 <style scoped>
@@ -46,7 +48,7 @@ input {
   height: var(--element-height);
   box-sizing: border-box;
 
-  padding:  calc(var(--gap) - 3px);
+  padding: calc(var(--gap) - 3px);
 
   background-color: var(--mid-base);
 

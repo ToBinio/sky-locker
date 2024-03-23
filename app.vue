@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import consola from "consola";
+
+consola.level = 999;
+</script>
+
 <template>
   <NuxtPage/>
 </template>
