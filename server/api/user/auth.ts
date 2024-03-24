@@ -21,19 +21,21 @@ export default defineEventHandler<Promise<string>>(async (event) => {
 		headers: { Authorization: `Bearer ${response.access_token}` },
 	});
 
-	consola.debug("user login", user);
-
 	const database = useDatabase();
 
 	const row = await database.sql`INSERT INTO session(name, avatar_url, github_id)
                                  VALUES (${user.login}, ${user.avatar_url}, ${user.id})
                                  RETURNING id`;
 
-	if (row.rows?.length !== 1 || !row.rows[0].id) {
-		return "";
+	let session = "";
+
+	if (row.rows?.length === 1 && row.rows[0].id) {
+		session = row.rows[0].id.toString();
 	}
 
-	return row.rows[0].id.toString();
+	consola.info("user login", session);
+
+	return session;
 });
 
 interface AccessToken {

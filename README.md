@@ -21,5 +21,6 @@ NUXT_GITHUB_APP_CLIENT_SECRET=<client-secret>
 Start the development server on `http://localhost:3000`:
 
 ```bash
+sudo bun db:start
 bun dev
 ```

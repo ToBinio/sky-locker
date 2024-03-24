@@ -1,5 +1,24 @@
 <script setup lang="ts">
 import consola from "consola";
+import { asyncComputed } from "@vueuse/core";
+import { $fetch } from "ofetch";
+
+const session = useCookie("session");
+
+const avatar = asyncComputed(async () => {
+	if (!session.value) {
+		return undefined;
+	}
+
+	try {
+    return await $fetch("/api/user/avatar", {
+			headers: { Authorization: `Bearer ${session.value}` },
+		});
+	} catch (e) {
+		consola.error(e);
+		session.value = undefined;
+	}
+}, undefined);
 
 function onLogin() {
 	const config = useRuntimeConfig();
@@ -39,15 +58,17 @@ async function setCode(pageLocation: Location) {
 
 	const code = pageLocation.search.split("?code=")[1];
 
-	const data = await $fetch("/api/auth", { query: { code: code } });
+	const newSession = await $fetch("/api/user/auth", { query: { code: code } });
+	consola.info("login", newSession);
 
-	consola.debug(data);
+	session.value = newSession;
 }
 </script>
 
 <template>
   <button id="main" @click="onLogin">
-    <icon name="basil:user-solid" size="40"/>
+    <img v-if="avatar" :src="avatar" alt="avatar">
+    <icon v-else name="basil:user-solid"/>
   </button>
 </template>
 
@@ -55,6 +76,8 @@ async function setCode(pageLocation: Location) {
 #main {
   background-color: var(--mid-base);
   padding: 5px;
+  height: 50px;
+  aspect-ratio: 1/1;
 
   border: none;
   border-radius: 50%;
@@ -63,6 +86,11 @@ async function setCode(pageLocation: Location) {
 
   &:hover {
     scale: 1.1;
+  }
+
+  svg, img{
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

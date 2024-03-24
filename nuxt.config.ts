@@ -1,10 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+	preset: "bun",
 	devtools: { enabled: true },
 	nitro: {
 		experimental: {
 			database: true,
-			tasks: true,
+			// tasks: true,
 		},
 		database: {
 			default: {
@@ -14,9 +15,9 @@ export default defineNuxtConfig({
 				},
 			},
 		},
-		scheduledTasks: {
-			"* * * * *": ["db:deleteSessions"],
-		},
+		// scheduledTasks: {
+		// 	"* * * * *": ["db:deleteSessions"],
+		// },
 	},
 	modules: [
 		"nuxt-icon",
