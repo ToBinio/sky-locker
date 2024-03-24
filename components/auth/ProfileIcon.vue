@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import consola from "consola";
 import { asyncComputed } from "@vueuse/core";
+import consola from "consola";
 import { $fetch } from "ofetch";
 
 const session = useCookie("session");
@@ -11,7 +11,7 @@ const avatar = asyncComputed(async () => {
 	}
 
 	try {
-    return await $fetch("/api/user/avatar", {
+		return await $fetch("/api/user/avatar", {
 			headers: { Authorization: `Bearer ${session.value}` },
 		});
 	} catch (e) {
