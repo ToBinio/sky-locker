@@ -1,19 +1,19 @@
-import {FileData} from "~/utils/files";
-import {mkdir, readFile, writeFile} from "node:fs/promises";
-import {getPathFromGroup} from "~/server/utils/path";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { getPathFromGroup } from "~/server/utils/path";
+import { FileData } from "~/utils/files";
 
-export default defineEventHandler(async event => {
-    let path = getPathFromGroup(event);
+export default defineEventHandler(async (event) => {
+	const path = getPathFromGroup(event);
 
-    let data = await readMultipartFormData(event);
+	const data = await readMultipartFormData(event);
 
-    if (!data) {
-        return
-    }
+	if (!data) {
+		return;
+	}
 
-    await mkdir(`${path}/`, {recursive: true})
+	await mkdir(`${path}/`, { recursive: true });
 
-    for (let file of data) {
-        await writeFile(`${path}/${file.filename}`, file.data)
-    }
-})
+	for (const file of data) {
+		await writeFile(`${path}/${file.filename}`, file.data);
+	}
+});

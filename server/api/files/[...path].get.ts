@@ -1,35 +1,34 @@
-import {access, mkdir, readdir, stat} from "node:fs/promises";
-import {FileData, DirData} from "~/utils/files";
-import {getPathFromGroup} from "~/server/utils/path";
+import { access, mkdir, readdir, stat } from "node:fs/promises";
+import { getPathFromGroup } from "~/server/utils/path";
+import type { DirData, FileData } from "~/utils/files";
 
-export default defineEventHandler(async event => {
-    let path = getPathFromGroup(event);
+export default defineEventHandler(async (event) => {
+	const path = getPathFromGroup(event);
 
-    try {
-        await access(path)
-    } catch {
-        setResponseStatus(event, 404);
-        return
-    }
+	try {
+		await access(path);
+	} catch {
+		setResponseStatus(event, 404);
+		return;
+	}
 
-    let files: FileData[] = []
-    let dirs = []
+	const files: FileData[] = [];
+	const dirs = [];
 
-    for (let name of await readdir(path)) {
+	for (const name of await readdir(path)) {
+		if ((await stat(`${path}/${name}`)).isFile()) {
+			files.push({
+				name: name,
+			} as FileData);
+		} else {
+			dirs.push({
+				name: name,
+			} as DirData);
+		}
+	}
 
-        if ((await stat(`${path}/${name}`)).isFile()) {
-            files.push({
-                name: name
-            } as FileData)
-        } else {
-            dirs.push({
-                name: name
-            } as DirData)
-        }
-    }
-
-    return {
-        files: files,
-        dirs: dirs
-    }
-})
+	return {
+		files: files,
+		dirs: dirs,
+	};
+});

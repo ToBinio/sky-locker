@@ -1,8 +1,8 @@
-export type FileData = {
-    name: string
-    loading: boolean | undefined
+export interface FileData {
+	name: string;
+	loading: boolean | undefined;
 }
 
-export type DirData = {
-    name: string
+export interface DirData {
+	name: string;
 }
