@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	preset: "bun",
 	devtools: { enabled: true },
 	nitro: {
+		preset: "bun",
 		experimental: {
 			database: true,
 			// tasks: true,
