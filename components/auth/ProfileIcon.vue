@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { asyncComputed } from "@vueuse/core";
+import {asyncComputed} from "@vueuse/core";
 import consola from "consola";
-import { $fetch } from "ofetch";
 
 const session = useCookie("session");
 
-const avatar = asyncComputed(async () => {
+const avatar = asyncComputed(
+	async () => await loadAvatar(),
+	await loadAvatar(),
+);
+
+async function loadAvatar() {
 	if (!session.value) {
 		return undefined;
 	}
@@ -18,7 +22,7 @@ const avatar = asyncComputed(async () => {
 		consola.error(e);
 		session.value = undefined;
 	}
-}, undefined);
+}
 
 function onLogin() {
 	const config = useRuntimeConfig();
@@ -88,7 +92,7 @@ async function setCode(pageLocation: Location) {
     scale: 1.1;
   }
 
-  svg, img{
+  svg, img {
     width: 100%;
     height: 100%;
   }
