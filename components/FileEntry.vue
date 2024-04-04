@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileData } from "~/utils/files";
+import type {FileData} from "~/utils/files";
 
 defineProps<{ file: FileData; basePath: string }>();
 
@@ -20,7 +20,7 @@ function onRemove() {
     </div>
     <icon name="basil:file-outline" size="24" color="var(--white)"/>
     <a
-        :href="`api/file/${basePath}/${file.name}`">
+        :href="`api/file/${basePath}/${file.name}`" target="_blank">
       {{ file.name }}
     </a>
   </div>
