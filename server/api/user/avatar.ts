@@ -28,7 +28,5 @@ export default defineEventHandler<Promise<string>>(async (event) => {
 		return "user not found";
 	}
 
-	consola.info("load avatar for", token);
-
 	return result.rows[0].avatar_url.toString();
 });

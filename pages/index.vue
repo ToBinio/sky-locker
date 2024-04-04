@@ -15,7 +15,7 @@ import ProfileIcon from "~/components/auth/ProfileIcon.vue";
 </template>
 
 <style scoped>
-#header{
+#header {
   display: flex;
   justify-content: space-between;
 
