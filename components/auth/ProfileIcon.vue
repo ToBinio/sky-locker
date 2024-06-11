@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {asyncComputed} from "@vueuse/core";
+import { asyncComputed } from "@vueuse/core";
 import consola from "consola";
 
 const session = useCookie("session");
