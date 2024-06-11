@@ -16,7 +16,7 @@
 	"devDependencies": {
 		"@nuxtjs/google-fonts": "^3.2.0",
 		"@types/pg": "^8.11.6",
-		"nuxt": "^3.11.2",
+		"nuxt": "^3.12.1",
 		"nuxt-icon": "^0.6.10",
 		"vue": "^3.4.27",
 		"vue-router": "^4.3.3"

@@ -1,31 +1,34 @@
 -- DROP EVERYTHING
-drop table IF EXISTS session;
-drop table IF EXISTS file;
-drop table IF EXISTS folder;
+DROP TABLE IF EXISTS session;
+DROP TABLE IF EXISTS file;
+DROP TABLE IF EXISTS folder;
 
 -- CREATE EVERYTHING
-create TABLE session
+CREATE TABLE session
 (
-    id            uuid      DEFAULT gen_random_uuid() PRIMARY KEY,
-    creation_date timestamp DEFAULT now() NOT NULL,
-    name          text                    NOT NULL,
-    avatar_url    text                    NOT NULL,
-    github_id     text                    NOT NULL
+    id            UUID      DEFAULT gen_random_uuid() PRIMARY KEY,
+    creation_date TIMESTAMP DEFAULT now() NOT NULL,
+    name          TEXT                    NOT NULL,
+    avatar_url    TEXT                    NOT NULL,
+    github_id     TEXT                    NOT NULL
 );
 
-create TABLE folder
+CREATE TABLE folder
 (
-    id     uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    parent_folder uuid REFERENCES folder (id)
+    id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    parent_folder UUID REFERENCES folder (id),
 
-    name text NOT NULL
+    name          TEXT NOT NULL
 );
 
-create TABLE file
+CREATE TABLE file
 (
-    id     uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    folder uuid REFERENCES folder (id) NOT NULL
+    id     UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    folder UUID REFERENCES folder (id) NOT NULL,
 
-    name text NOT NULL
+    name   TEXT                        NOT NULL
 );
 
+-- BASE VALUES
+INSERT INTO folder(parent_folder, name)
+VALUES (null, 'public')

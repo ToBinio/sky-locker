@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ProfileIcon from "~/components/auth/ProfileIcon.vue";
+import FolderContainer from "~/components/folder/FolderContainer.vue";
 </script>
 
 <template>
@@ -10,11 +11,19 @@ import ProfileIcon from "~/components/auth/ProfileIcon.vue";
     </span>
     <ProfileIcon/>
   </div>
+  <div id="body">
+    <div id="side-bar">
+      <FolderContainer/>
+    </div>
 
-  <slot/>
+    <main>
+      <slot/>
+    </main>
+  </div>
 </template>
 
 <style scoped>
+
 #header {
   display: flex;
   justify-content: space-between;
@@ -28,5 +37,17 @@ import ProfileIcon from "~/components/auth/ProfileIcon.vue";
   }
 
   margin: 20px;
+}
+
+#body{
+  display: flex;
+
+  #side-bar{
+    width: 200px;
+  }
+
+  main{
+    flex: 1
+  }
 }
 </style>

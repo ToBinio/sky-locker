@@ -31,7 +31,6 @@ export default defineNuxtConfig({
 		],
 	],
 	runtimeConfig: {
-		jwtToken: "please set in .env",
 		githubAppClientSecret: "please set in .env",
 		public: {
 			githubAppClientId: "please set in .env",
