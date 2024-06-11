@@ -4,6 +4,10 @@ const emits = defineEmits<{ new: [name: string] }>();
 const dirName = ref("");
 
 function onCreateNewDir() {
+	if (dirName.value == null) {
+		return;
+	}
+
 	emits("new", dirName.value);
 	dirName.value = "";
 }
