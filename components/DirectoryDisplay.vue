@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { $fetch } from "ofetch";
-import DirectoryInput from "~/components/input/DirectoryInput.vue";
 import FileInput from "~/components/input/FileInput.vue";
-import type { DirData, FileData } from "~/utils/files";
+import type { File, LoadingFile } from "~/utils/types/file";
 
-const props = defineProps<{ basePath: string }>();
+const props = defineProps<{ path: string }>();
 
-const { data, refresh } = useFetch<{ files: FileData[]; dirs: DirData[] }>(
-	`/api/files/${props.basePath}`,
-);
+const { data, refresh } = useFetch<LoadingFile[]>(`/api/files/${props.path}`);
 
 const files = computed(() => {
-	return data.value ? data.value.files : [];
+	return data.value ? data.value : [];
 });
-const uploadingFiles = reactive<FileData[]>([]);
+const uploadingFiles = reactive<LoadingFile[]>([]);
 
 const allFiles = computed(() => {
 	const all = files.value.concat(uploadingFiles);
@@ -21,17 +18,15 @@ const allFiles = computed(() => {
 	return all;
 });
 
-const dirs = computed(() => data.value?.dirs);
-
 async function onUploadFile(files: FileList) {
 	for (const file of files) {
 		const formData = new FormData();
 
 		formData.append("file", file);
 
-		uploadingFiles.push({ name: file.name, loading: true });
+		uploadingFiles.push({ id: "", name: file.name, loading: true });
 
-		$fetch(`/api/file/${props.basePath}`, {
+		$fetch(`/api/files/${props.path}`, {
 			method: "POST",
 			body: formData,
 		})
@@ -48,24 +43,8 @@ async function onUploadFile(files: FileList) {
 	}
 }
 
-async function onRemoveFile(file: FileData) {
-	await $fetch(`/api/file/${props.basePath}/${file.name}`, {
-		method: "DELETE",
-	});
-
-	await refresh();
-}
-
-async function onCreateNewDir(name: string) {
-	await $fetch(`/api/dir/${props.basePath}/${name}`, {
-		method: "POST",
-	});
-
-	await refresh();
-}
-
-async function onRemoveDir(dir: DirData) {
-	await $fetch(`/api/dir/${props.basePath}/${dir.name}`, {
+async function onRemoveFile(file: File) {
+	await $fetch(`/api/file/${file.id}`, {
 		method: "DELETE",
 	});
 
@@ -75,10 +54,8 @@ async function onRemoveDir(dir: DirData) {
 
 <template>
   <div id="main">
-    <DirectoryEntry v-for="dir in dirs" :dir="dir" :base-path="basePath" @remove="() => onRemoveDir(dir)"/>
-    <DirectoryInput @new="onCreateNewDir"/>
     <FileEntry v-for="file in allFiles" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"
-               :base-path="basePath"/>
+               :base-path="path"/>
     <FileInput @upload="onUploadFile"/>
   </div>
 </template>

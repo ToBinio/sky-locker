@@ -2,7 +2,9 @@
 </script>
 
 <template>
-  <directoryDisplay base-path="public"/>
+  <div>
+    Select a folder
+  </div>
 </template>
 
 <style scoped>

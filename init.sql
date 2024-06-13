@@ -31,4 +31,5 @@ CREATE TABLE file
 
 -- BASE VALUES
 INSERT INTO folder(parent_folder, name)
-VALUES (null, 'public')
+VALUES (null, 'public'),
+       (null, 'public2')

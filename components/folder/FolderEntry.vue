@@ -42,7 +42,9 @@ async function onDelete() {
 <template>
   <div id="main">
     <div id="header">
-      {{ folder.name}}
+      <NuxtLink :href="folder.id">
+        {{ folder.name}}x
+      </NuxtLink>
       <div>
       <button v-if="data?.length == 0" class="myIcon" @click="onDelete">
         <icon name="basil:trash-alt-outline" size="24" color="var(--white)"/>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { FileData } from "~/utils/files";
+import type { LoadingFile } from "~/utils/types/file";
 
-defineProps<{ file: FileData; basePath: string }>();
+defineProps<{ file: LoadingFile; basePath: string }>();
 
 const emits = defineEmits<{ remove: [] }>();
 
@@ -20,7 +20,7 @@ function onRemove() {
     </div>
     <icon name="basil:file-outline" size="24" color="var(--white)"/>
     <a
-        :href="`api/file/${basePath}/${file.name}`" target="_blank">
+        :href="`api/file/${file.name}?id=${file.id}`" target="_blank">
       {{ file.name }}
     </a>
   </div>

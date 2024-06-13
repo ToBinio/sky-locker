@@ -10,7 +10,7 @@ const path = computed(() => {
 </script>
 
 <template>
-  <directoryDisplay :base-path="path"/>
+  <directoryDisplay :path="path"/>
 </template>
 
 <style scoped>
