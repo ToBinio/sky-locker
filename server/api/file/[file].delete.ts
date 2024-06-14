@@ -4,8 +4,6 @@ export default defineEventHandler(async (event) => {
 	const id = getRouterParam(event, "file");
 	const database = useDatabase();
 
-	console.log(id);
-
 	await database.sql`
 		DELETE
 		FROM file

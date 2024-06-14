@@ -2,7 +2,6 @@
 import type { LoadingFile } from "~/utils/types/file";
 
 defineProps<{ file: LoadingFile; basePath: string }>();
-
 const emits = defineEmits<{ remove: [] }>();
 
 function onRemove() {
@@ -20,7 +19,7 @@ function onRemove() {
     </div>
     <icon name="basil:file-outline" size="24" color="var(--white)"/>
     <a
-        :href="`api/file/${file.name}?id=${file.id}`" target="_blank">
+        :href="`api/file/${file.name}?id=${file.id}`" download>
       {{ file.name }}
     </a>
   </div>

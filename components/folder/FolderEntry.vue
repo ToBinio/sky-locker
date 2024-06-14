@@ -6,6 +6,8 @@ const emit = defineEmits<{
 	delete: [];
 }>();
 
+const path = useRouterPath();
+
 const { data, refresh } = useFetch("/api/folder/", {
 	query: {
 		folder_id: props.folder.id,
@@ -42,22 +44,24 @@ async function onDelete() {
 <template>
   <div id="main">
     <div id="header">
-      <NuxtLink :href="folder.id">
-        {{ folder.name}}x
+      <NuxtLink :href="folder.id" :class="{current:folder.id == path}">
+        {{ folder.name}}
       </NuxtLink>
       <div>
       <button v-if="data?.length == 0" class="myIcon" @click="onDelete">
         <icon name="basil:trash-alt-outline" size="24" color="var(--white)"/>
       </button>
-      <input v-model="showSubFolders" type="checkbox">
+      <button @click="() => {showSubFolders = !showSubFolders}" class="myIcon">
+        <icon v-if="showSubFolders" name="basil:caret-up-solid" size="24" color="var(--white)"/>
+        <icon v-else name="basil:caret-down-solid" size="24" color="var(--white)"/>
+      </button>
       </div>
     </div>
-
     <div id="sub" v-if="showSubFolders">
       <div id="line">
       </div>
       <div>
-        <FolderEntry v-for="sub_folder in data" :folder="sub_folder" @delete="refresh"/>
+        <FolderEntry v-for="sub_folder in data" :key="sub_folder.id" :folder="sub_folder" @delete="refresh"/>
         <form id="folderInput" @submit.prevent="onCreateNewDir">
           <button class="myIcon" type="submit">
             <icon name="basil:folder-plus-outline" size="24" color="var(--white)"/>
@@ -74,9 +78,18 @@ async function onDelete() {
   margin-top: 5px;
   margin-bottom: 5px;
 
-  #header{
+  #header {
     display: flex;
     justify-content: space-between;
+
+    a {
+      color: black;
+      text-decoration: none;
+
+      &.current{
+        color: red;
+      }
+    }
   }
 
   #sub{

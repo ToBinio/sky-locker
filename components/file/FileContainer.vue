@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { $fetch } from "ofetch";
-import FileInput from "~/components/input/FileInput.vue";
-import type { File, LoadingFile } from "~/utils/types/file";
+import type { LoadingFile, File } from "~/utils/types/file";
 
 const props = defineProps<{ path: string }>();
 
@@ -54,7 +52,7 @@ async function onRemoveFile(file: File) {
 
 <template>
   <div id="main">
-    <FileEntry v-for="file in allFiles" :key="file.name" :file="file" @remove="() => onRemoveFile(file)"
+    <FileEntry v-for="file in allFiles" :key="file.id" :file="file" @remove="() => onRemoveFile(file)"
                :base-path="path"/>
     <FileInput @upload="onUploadFile"/>
   </div>
