@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LoadingFile, File } from "~/utils/types/file";
+import type { File, LoadingFile } from "~/utils/types/file";
 
 const props = defineProps<{ path: string }>();
 
