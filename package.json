@@ -24,9 +24,11 @@
 	"dependencies": {
 		"@biomejs/biome": "^1.8.1",
 		"@libsql/client": "^0.6.2",
+		"@pinia/nuxt": "^0.5.1",
 		"better-sqlite3": "^11.0.0",
 		"consola": "^3.2.3",
 		"db0": "^0.1.4",
-		"pg": "^8.12.0"
+		"pg": "^8.12.0",
+		"pinia": "^2.1.7"
 	}
 }

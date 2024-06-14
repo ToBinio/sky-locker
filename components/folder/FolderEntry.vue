@@ -2,9 +2,6 @@
 import type { Folder } from "~/utils/types/folder";
 
 const props = defineProps<{ folder: Folder }>();
-const emit = defineEmits<{
-	delete: [];
-}>();
 
 const path = useRouterPath();
 
@@ -28,17 +25,6 @@ async function onCreateNewDir() {
 
 	await refresh();
 }
-
-async function onDelete() {
-	await $fetch("/api/folder/", {
-		method: "DELETE",
-		body: {
-			id: props.folder.id,
-		},
-	});
-
-	emit("delete");
-}
 </script>
 
 <template>
@@ -48,9 +34,6 @@ async function onDelete() {
         {{ folder.name}}
       </NuxtLink>
       <div>
-      <button v-if="data?.length == 0" class="myIcon" @click="onDelete">
-        <icon name="basil:trash-alt-outline" size="24" color="var(--white)"/>
-      </button>
       <button @click="() => {showSubFolders = !showSubFolders}" class="myIcon">
         <icon v-if="showSubFolders" name="basil:caret-up-solid" size="24" color="var(--white)"/>
         <icon v-else name="basil:caret-down-solid" size="24" color="var(--white)"/>
@@ -61,7 +44,7 @@ async function onDelete() {
       <div id="line">
       </div>
       <div>
-        <FolderEntry v-for="sub_folder in data" :key="sub_folder.id" :folder="sub_folder" @delete="refresh"/>
+        <FolderEntry v-for="sub_folder in data" :key="sub_folder.id" :folder="sub_folder"/>
         <form id="folderInput" @submit.prevent="onCreateNewDir">
           <button class="myIcon" type="submit">
             <icon name="basil:folder-plus-outline" size="24" color="var(--white)"/>

@@ -1,8 +1,11 @@
 <script setup lang="ts">
-const { data } = useFetch("/api/folder/base");
+import FolderHeader from "~/components/folder/FolderHeader.vue";
+
+const { data, refresh } = useFetch("/api/folder/base");
 </script>
 
 <template>
+  <FolderHeader @delete="refresh"/>
   <FolderEntry v-for="folder in data" :key="folder.id" :folder="folder" />
 </template>
 
