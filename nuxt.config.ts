@@ -29,6 +29,7 @@ export default defineNuxtConfig({
 				},
 			},
 		],
+		"@pinia/nuxt",
 	],
 	runtimeConfig: {
 		githubAppClientSecret: "please set in .env",

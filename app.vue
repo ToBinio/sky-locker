@@ -15,6 +15,7 @@ html {
   --base: #222831;
   --mid-base: #393E46;
   --light-base: #474d57;
+  --very-light-base: #575d67;
   --blue: #00ADB5;
   --white: #EEEEEE;
 

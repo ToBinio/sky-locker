@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useFolderRefresherStore } from "~/stores/folderRefresher";
 import type { Folder } from "~/utils/types/folder";
+import useFolderRefresher from "~/composables/useFolderRefresher";
 
 const props = defineProps<{ folder: Folder }>();
 
@@ -12,19 +14,8 @@ const { data, refresh } = useFetch("/api/folder/", {
 });
 const showSubFolders = ref(false);
 
-const dirname = ref("");
-
-async function onCreateNewDir() {
-	await $fetch("/api/folder/", {
-		method: "POST",
-		body: {
-			name: dirname.value,
-			parent_id: props.folder.id,
-		},
-	});
-
-	await refresh();
-}
+//todo - fix type & use in folderContainer
+useFolderRefresher(props.folder.id, data, refresh);
 </script>
 
 <template>
@@ -45,12 +36,6 @@ async function onCreateNewDir() {
       </div>
       <div>
         <FolderEntry v-for="sub_folder in data" :key="sub_folder.id" :folder="sub_folder"/>
-        <form id="folderInput" @submit.prevent="onCreateNewDir">
-          <button class="myIcon" type="submit">
-            <icon name="basil:folder-plus-outline" size="24" color="var(--white)"/>
-          </button>
-          <input v-model="dirname" type="text" name="dirName" placeholder="Folder Name">
-        </form>
       </div>
     </div>
   </div>
@@ -83,14 +68,6 @@ async function onCreateNewDir() {
 
       width: 1px;
       margin: 5px;
-    }
-
-    #folderInput{
-      display: flex;
-
-      input{
-        width: 100%;
-      }
     }
   }
 }
