@@ -1,7 +1,7 @@
 import { unlink } from "node:fs/promises";
 
 export default defineEventHandler(async (event) => {
-	const id = getRouterParam(event, "file");
+	const id = getRouterParam(event, "id");
 	const database = useDatabase();
 
 	await database.sql`

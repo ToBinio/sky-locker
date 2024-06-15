@@ -4,50 +4,62 @@ import FolderContainer from "~/components/folder/FolderContainer.vue";
 </script>
 
 <template>
-  <div id="header">
-    <span>
-      <icon name="basil:unlock-outline" size="40"/>
-      SkyLocker
-    </span>
-    <ProfileIcon/>
-  </div>
-  <div id="body">
-    <div id="side-bar">
-      <FolderContainer/>
+  <div id="page">
+    <div id="header">
+      <span>
+        <icon name="basil:unlock-outline" size="40"/>
+        SkyLocker
+      </span>
+      <ProfileIcon/>
     </div>
+    <div id="body">
+      <div id="side-bar">
+        <FolderContainer/>
+      </div>
 
-    <main>
-      <slot/>
-    </main>
+      <main>
+        <slot/>
+      </main>
+    </div>
   </div>
 </template>
 
 <style scoped>
-
-#header {
+#page{
+  height: 100vh;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 
-  span {
-    font-size: xx-large;
-    font-weight: bold;
-
+  #header {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+
+    span {
+      font-size: xx-large;
+      font-weight: bold;
+
+      display: flex;
+      align-items: center;
+    }
+
+    padding: 20px;
   }
 
-  margin: 20px;
-}
+  #body{
+    display: flex;
+    overflow: hidden;
+    flex: 1;
 
-#body{
-  display: flex;
+    #side-bar{
+      width: 200px;
+      height: 100%;
+      overflow: scroll;
+    }
 
-  #side-bar{
-    width: 200px;
-  }
-
-  main{
-    flex: 1
+    main{
+      flex: 1;
+      overflow: scroll;
+    }
   }
 }
 </style>

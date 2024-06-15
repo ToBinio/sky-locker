@@ -22,8 +22,15 @@ html {
   --element-height: 40px;
   --element-radius: 10px;
   --gap: 5px;
+  --big-gap: 10px;
 
-  background-color: var(--light-base);;
+  background-color: var(--light-base);
+
+  margin: 0;
+
+  body{
+    margin: 0;
+  }
 }
 
 * {
@@ -33,10 +40,14 @@ html {
 .myIcon {
   cursor: pointer;
 
-  background: var(--mid-base) none;
+  background-color: var(--mid-base);
   border: none;
   border-radius: calc(var(--element-radius) - var(--gap));
   padding: 3px;
+
+  &.dark{
+    background-color: var(--base);
+  }
 
   svg {
     transition: 0.1s ease-in-out;
