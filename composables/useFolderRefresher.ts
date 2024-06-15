@@ -1,6 +1,6 @@
+import type { Ref } from "vue";
 import { useFolderRefresherStore } from "~/stores/folderRefresher";
 import type { Folder } from "~/utils/types/folder";
-import type { Ref } from "vue";
 
 export default function (
 	id: string | undefined,

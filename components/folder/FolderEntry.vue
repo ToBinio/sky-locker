@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useFolderRefresherStore } from "~/stores/folderRefresher";
-import type { Folder } from "~/utils/types/folder";
 import useFolderRefresher from "~/composables/useFolderRefresher";
+import type { Folder } from "~/utils/types/folder";
 
 const props = defineProps<{ folder: Folder }>();
 
@@ -14,7 +13,6 @@ const { data, refresh } = useFetch("/api/folder/", {
 });
 const showSubFolders = ref(false);
 
-//todo - fix type & use in folderContainer
 useFolderRefresher(props.folder.id, data, refresh);
 </script>
 

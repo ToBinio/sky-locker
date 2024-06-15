@@ -38,11 +38,11 @@ export const useFolderRefresherStore = defineStore("folderRefresher", {
 		},
 		refreshParent(id: string) {
 			const refreshFn = this.data.get(id);
-			if (refreshFn && refreshFn.parent) refreshFn.parent();
+			if (refreshFn?.parent) refreshFn.parent();
 		},
 		refresh(id: string) {
 			const refreshFn = this.data.get(id);
-			if (refreshFn && refreshFn.self) refreshFn.self();
+			if (refreshFn?.self) refreshFn.self();
 		},
 	},
 });
